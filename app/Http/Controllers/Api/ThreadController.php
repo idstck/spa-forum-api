@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Channel;
 use App\Models\Thread;
+use App\Http\Requests\Api\CreateThreadRequest;
 
 class ThreadController extends Controller
 {
@@ -19,8 +20,13 @@ class ThreadController extends Controller
         return 'Thread Show';
     }
 
-    public function store(Request $request, Channel $channel)
+    public function store(CreateThreadRequest $request, Channel $channel)
     {
-        return 'Thread Store';
+        $thread = $request->user()->threads()->create([
+            'channel_id' => $request->json('channel_id'),
+            'title' => $request->json('title'),
+            'slug' => str_slug($request->json('title'), '-'),
+            'body' => $request->json('body'),
+        ]);
     }
 }
