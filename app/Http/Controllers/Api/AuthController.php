@@ -9,6 +9,7 @@ use App\Models\User;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Carbon\Carbon;
+use App\Transformers\UserTransformer;
 
 class AuthController extends Controller
 {
@@ -39,6 +40,12 @@ class AuthController extends Controller
             ], 401);
         }
 
-        return response()->json(compact('token'));
+        return fractal()
+            ->item($request->user())
+            ->transformWith(new UserTransformer)
+            ->addMeta([
+                'token' => $token
+            ])
+            ->toArray();
     }
 }
