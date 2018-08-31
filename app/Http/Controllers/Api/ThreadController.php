@@ -18,7 +18,11 @@ class ThreadController extends Controller
 
     public function show(Thread $thread)
     {
-        return 'Thread Show';
+        return fractal()
+            ->item($thread)
+            ->includeUser()
+            ->transformWith(new ThreadTransformer)
+            ->toArray();
     }
 
     public function store(CreateThreadRequest $request, Channel $channel)
