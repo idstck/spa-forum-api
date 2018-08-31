@@ -9,4 +9,9 @@ class Channel extends Model
     protected $fillable = [
         'title', 'slug', 'description'
     ];
+
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
 }

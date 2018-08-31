@@ -8,12 +8,18 @@ use App\Models\Channel;
 use App\Models\Thread;
 use App\Http\Requests\Api\CreateThreadRequest;
 use App\Transformers\ThreadTransformer;
+use App\Http\Requests\Api\GetThreadRequest;
 
 class ThreadController extends Controller
 {
-    public function index(Request $request, Channel $channel)
+    public function index(GetThreadRequest $request, Channel $channel)
     {
-        return 'Thread Index';
+        $threads = $channel->find($request->get('channel_id'))->threads()->latestFirst()->get();
+        return fractal()
+            ->collection($threads)
+            ->includeUser()
+            ->transformWith(new ThreadTransformer)
+            ->toArray();
     }
 
     public function show(Thread $thread)

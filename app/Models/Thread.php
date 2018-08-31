@@ -11,6 +11,11 @@ class Thread extends Model
         'slug', 'body'
     ];
 
+    public function scopeLatestFirst($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
