@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Channel;
 use App\Models\Thread;
 use App\Http\Requests\Api\CreateThreadRequest;
+use App\Transformers\ThreadTransformer;
 
 class ThreadController extends Controller
 {
@@ -28,5 +29,12 @@ class ThreadController extends Controller
             'slug' => str_slug($request->json('title'), '-'),
             'body' => $request->json('body'),
         ]);
+
+        return fractal()
+            ->item($thread)
+            ->includeUser()
+            ->includeChannel()
+            ->transformWith(new ThreadTransformer)
+            ->toArray();
     }
 }
