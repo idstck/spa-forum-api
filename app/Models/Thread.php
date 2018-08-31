@@ -25,4 +25,9 @@ class Thread extends Model
     {
         return $this->belongsTo(Channel::class, 'channel_id', 'id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

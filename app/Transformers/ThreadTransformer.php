@@ -5,12 +5,13 @@ namespace App\Transformers;
 use App\Models\Thread;
 use App\Transformers\UserTransformer;
 use App\Transformers\ChannelTransformer;
+use App\Transformers\CommentTransformer;
 use League\Fractal\TransformerAbstract;
 
 class ThreadTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
-        'user', 'channel'
+        'user', 'channel', 'comments'
     ];   
 
     /**
@@ -37,5 +38,10 @@ class ThreadTransformer extends TransformerAbstract
     public function includeChannel(Thread $thread)
     {
         return $this->item($thread->channel, new ChannelTransformer);
+    }
+
+    public function includeComments(Thread $thread)
+    {
+        return $this->collection($thread->comments, new CommentTransformer);
     }
 }

@@ -12,5 +12,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'Api'], function () {
         Route::get('/user', 'UserController@index');
 
         Route::post('thread', 'ThreadController@store');
+
+        Route::post('thread/{thread}/comment', 'CommentController@store');
     });
 });

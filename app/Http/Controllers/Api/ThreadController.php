@@ -27,6 +27,7 @@ class ThreadController extends Controller
         return fractal()
             ->item($thread)
             ->includeUser()
+            ->includeComments()
             ->transformWith(new ThreadTransformer)
             ->toArray();
     }
